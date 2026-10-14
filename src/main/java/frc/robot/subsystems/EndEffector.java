@@ -24,9 +24,18 @@ public class EndEffector extends SubsystemBase {
 
     public EndEffector() {
         // Initialize the end effector motor and configurator
-        endEffectorMotor = new TalonFX(Constants.END_EFFECTOR_MOTOR_ID);
+        endEffectorMotor = new TalonFX(Constants.OperatorConstants.END_EFFECTOR_MOTOR_ID);
         endEffectorConfig = new TalonFXConfiguration();
         //applys the configurration 
-        endEffectorMotor.getConfigurator().apply(endEffectorConfig);
+        endEffectorMotor.getConfigurator().apply(endEffectorConfig);        
     }
-}
+        public void intake() {
+            endEffectorMotor.set(-1.0);
+        }
+        public void outake() {
+        endEffectorMotor.set(1.0);  
+        }
+        public void off() {
+        endEffectorMotor.set(0.0);
+        }        
+    }

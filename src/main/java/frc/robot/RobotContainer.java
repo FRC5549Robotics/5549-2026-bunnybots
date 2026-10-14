@@ -9,8 +9,12 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.elevator;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,12 +24,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final elevator m_elevator = new elevator();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
+  private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -49,6 +53,15 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    m_operatorController.rightBumper().onTrue(new InstantCommand(m_elevator::goUp)).onFalse(new InstantCommand(m_elevator::stop));
+    m_operatorController.leftBumper().onTrue(new InstantCommand(m_elevator::goDown)).onFalse(new InstantCommand(m_elevator::stop));
+
+    m_operatorController.button(0).onTrue(new InstantCommand(m_elevator::level1)).onFalse(new InstantCommand(m_elevator::stop));
+    m_operatorController.button(1).onTrue(new InstantCommand(m_elevator::level2)).onFalse(new InstantCommand(m_elevator::stop));
+    m_operatorController.button(2).onTrue(new InstantCommand(m_elevator::level3)).onFalse(new InstantCommand(m_elevator::stop));
+    m_operatorController.button(3).onTrue(new InstantCommand(m_elevator::levelIntake)).onFalse(new InstantCommand(m_elevator::stop));
+    
   }
 
   /**

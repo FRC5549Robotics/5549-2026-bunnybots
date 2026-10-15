@@ -40,7 +40,9 @@ public final class Constants {
 
     //End Effector Constants
     public static final int END_EFFECTOR_MOTOR_ID = 0;
-    
+
+    // Controller Constants
+    public static final double JOYSTICK_DEADBAND = 0.2;
 
   }
 }
